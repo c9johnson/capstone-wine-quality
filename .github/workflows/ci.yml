@@ -1,4 +1,4 @@
-name: Wine Quality CI/CD Pipeline
+name: Wine Quality CI Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test-and-build:
+  test-pipeline:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,12 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Train model for testing
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python src/train.py
+
       - name: Run Pytest suite
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           pytest
-
-      - name: Build Docker image
-        run: |
-          docker build -t wine-quality-app .
