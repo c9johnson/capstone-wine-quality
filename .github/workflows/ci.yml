@@ -1,32 +1,52 @@
-- name: Ensure Data Exists
+name: Wine Quality CI Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ensure Data Exists
         run: |
           mkdir -p data
           python -c "
-          import urllib.request
-          import zipfile
-          import io
-          import pandas as pd
-
+          import urllib.request, zipfile, io, pandas as pd, glob
           url = 'https://archive.ics.uci.edu/static/public/186/wine+quality.zip'
           req = urllib.request.urlopen(url)
           with zipfile.ZipFile(io.BytesIO(req.read())) as z:
-              # The inner zip file containing the actual csv files
-              inner_zip_name = 'winequality.zip'
-              if inner_zip_name in z.namelist():
-                  with zipfile.ZipFile(io.BytesIO(z.read(inner_zip_name))) as inner_z:
-                      inner_z.extractall('temp_data')
+              inner = 'winequality.zip'
+              if inner in z.namelist():
+                  with zipfile.ZipFile(io.BytesIO(z.read(inner))) as iz:
+                      iz.extractall('temp_data')
               else:
                   z.extractall('temp_data')
-
-          import glob
-          red_path = glob.glob('temp_data/**/winequality-red.csv', recursive=True)[0]
-          white_path = glob.glob('temp_data/**/winequality-white.csv', recursive=True)[0]
-
-          red = pd.read_csv(red_path, sep=';')
+          red = pd.read_csv(glob.glob('temp_data/**/winequality-red.csv', recursive=True)[0], sep=';')
           red['wine_type'] = 'red'
-          white = pd.read_csv(white_path, sep=';')
+          white = pd.read_csv(glob.glob('temp_data/**/winequality-white.csv', recursive=True)[0], sep=';')
           white['wine_type'] = 'white'
-          df = pd.concat([red, white], ignore_index=True)
-          df.to_csv('data/winequality.csv', index=False)
-          print('Successfully generated data/winequality.csv')
+          pd.concat([red, white], ignore_index=True).to_csv('data/winequality.csv', index=False)
           "
+
+      - name: Run Pipeline and Tests
+        run: |
+          python src/train.py
+          pytest
