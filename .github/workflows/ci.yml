@@ -25,8 +25,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Pytest suite
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      - name: Ensure Data Exists
         run: |
+          mkdir -p data
+          # Pull down the public UCI red and white wine CSVs and combine them 
+          # so data/winequality.csv is ready for preprocess.py
+          curl -s "https://archive.ics.uci.edu/static/public/186/wine+quality.zip" -o wine.zip
+          unzip -q wine.zip
+          unzip -q "winequality.zip"
+          python -c "
+          import pandas as pd
+          red = pd.read_csv('winequality-red.csv', sep=';')
+          red['wine_type'] = 'red'
+          white = pd.read_csv('winequality-white.csv', sep=';')
+          white['wine_type'] = 'white'
+          df = pd.concat([red, white], ignore_index=True)
+          df.to_csv('data/winequality.csv', index=False)
+          "
+
+      - name: Run Pipeline and Tests
+        run: |
+          python src/train.py
           pytest
