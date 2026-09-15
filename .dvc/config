@@ -1,0 +1,4 @@
+[core]
+    remote = localstore
+['remote "localstore"']
+    url = /home/darke/.dvc_local_store/capstone-wine-quality

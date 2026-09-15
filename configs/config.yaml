@@ -1,0 +1,43 @@
+data:
+  raw_path: "data/winequality.csv"
+  test_size: 0.2
+  random_state: 42
+  target_column: "quality"
+
+features:
+  categorical:
+    - "wine_type"
+  numerical:
+    - "fixed acidity"
+    - "volatile acidity"
+    - "citric acid"
+    - "residual sugar"
+    - "chlorides"
+    - "free sulfur dioxide"
+    - "total sulfur dioxide"
+    - "density"
+    - "pH"
+    - "sulphates"
+    - "alcohol"
+
+preprocessing:
+  impute_strategy: "median"
+  scale_numerical: true
+
+model:
+  type: "random_forest"
+  params:
+    n_estimators: 300
+    max_depth: 25
+    min_samples_split: 2
+    random_state: 42
+
+mlflow:
+  experiment_name: "wine-quality-capstone"
+  tracking_uri: "sqlite:///mlflow.db"
+
+# Section for the LLM natural language interface
+llm:
+  model_id: "meta-llama/Llama-3.1-8B-Instruct"
+  max_new_tokens: 256
+  temperature: 0.1

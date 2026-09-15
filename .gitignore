@@ -1,0 +1,16 @@
+# Environment & secrets
+.env
+venv/
+__pycache__/
+*.pyc
+
+# MLflow & Local Stores
+mlruns/
+mlflow.db
+
+# Data & Model Artifacts
+data/*.csv
+!data/.gitkeep
+*.pkl
+*.joblib
+.dvc/cache/
