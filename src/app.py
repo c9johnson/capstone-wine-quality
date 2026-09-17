@@ -35,14 +35,16 @@ st.markdown(
     /* 2. Main Page Card Container */
     .stMain .block-container {
         max-width: 1200px !important;
-        min-height: calc(100vh - 4rem) !important;
+        height: calc(100vh - 4rem) !important; /* Stretches card fully down even when empty */
         margin: 2rem auto !important;
         padding: 2.5rem 2rem !important;
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
         border-radius: 12px !important;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
-        overflow: hidden !important;
+        overflow-y: auto !important; /* Enables smooth inner scroll when content fills up */
+        display: flex !important;
+        flex-direction: column !important;
     }
 
     /* 3. Header & Three-Dots Menu Alignment */
