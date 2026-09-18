@@ -2,7 +2,13 @@
 WINE QUALITY PREDICTION & INTERACTIVE AI ASSISTANT: PROJECT README
 ================================================================================
 
-1. PROJECT DESCRIPTION
+1. PROJECT DEMO
+--------------------------------------------------------------------------------
+Watch the full end-to-end application demonstration:
+./demo/wine_quality_app_demo.mp4
+
+
+2. PROJECT DESCRIPTION
 --------------------------------------------------------------------------------
 - What the application does: 
   This application provides an end-to-end machine learning and AI-powered interface 
@@ -23,7 +29,7 @@ WINE QUALITY PREDICTION & INTERACTIVE AI ASSISTANT: PROJECT README
   system using natural conversational language to evaluate hypothetical wine formulations.
 
 
-2. SETUP INSTRUCTIONS
+3. SETUP INSTRUCTIONS
 --------------------------------------------------------------------------------
 - Prerequisites:
   * Python 3.10+
@@ -50,7 +56,7 @@ WINE QUALITY PREDICTION & INTERACTIVE AI ASSISTANT: PROJECT README
     execution and testing environments.
 
 
-3. USAGE INSTRUCTIONS
+4. USAGE INSTRUCTIONS
 --------------------------------------------------------------------------------
 - Training the Model:
   Run the complete training pipeline to preprocess data, train models, track 
@@ -70,7 +76,7 @@ WINE QUALITY PREDICTION & INTERACTIVE AI ASSISTANT: PROJECT README
   model through natural language prompts.
 
 
-4. ARCHITECTURE OVERVIEW
+5. ARCHITECTURE OVERVIEW
 --------------------------------------------------------------------------------
 - Data Preprocessing Pipeline (`src/preprocess.py`):
   Ingests raw UCI red and white wine CSVs, standardizes column structures, merges 
@@ -90,7 +96,7 @@ WINE QUALITY PREDICTION & INTERACTIVE AI ASSISTANT: PROJECT README
   the feature vector into the champion model to return a scalar quality prediction (1-10).
 
 
-5. RESULTS SUMMARY
+6. RESULTS SUMMARY
 --------------------------------------------------------------------------------
 - Best Model Performance:
   The optimized champion model achieved strong predictive accuracy on unseen 
@@ -106,7 +112,7 @@ WINE QUALITY PREDICTION & INTERACTIVE AI ASSISTANT: PROJECT README
     baseline score expectations between varietals.
 
 
-6. REFLECTION
+7. REFLECTION
 --------------------------------------------------------------------------------
 - What We Learned:
   Successfully integrating traditional tabular machine learning pipelines with 
